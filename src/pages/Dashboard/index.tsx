@@ -1,12 +1,14 @@
 import Dashboard from "./dashboard";
 import Layout from "@/components/layouts";
 
-type Props = {};
-
+interface Props {
+  loading: boolean;
+  count: number;
+}
 const index = (props: Props) => {
   return (
     <Layout>
-      <Dashboard />
+      <Dashboard loading={true} count />
     </Layout>
   );
 };

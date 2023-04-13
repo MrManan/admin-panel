@@ -36,12 +36,10 @@ const style = {
 
 type Props = {};
 const Category = (props: Props) => {
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setSelectedImage(file);
-    }
+    setSelectedImage(file || null);
   };
 
   const handleImageRemove = () => {
