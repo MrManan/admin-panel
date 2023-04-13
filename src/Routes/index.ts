@@ -4,6 +4,7 @@ import { Login } from "@/pages/login";
 import User from "@/pages/User";
 import Category from "@/pages/Category";
 import UploadVideo from "@/pages/Videos";
+import PendingVideos from "@/pages/PendingVideo";
 
 const adminRoutes = [
   {
@@ -30,6 +31,11 @@ const adminRoutes = [
     path: "/uploadVideo",
     exact: true,
     component: requireAuth(UploadVideo),
+  },
+  {
+    path: "/pendingVideos",
+    exact: true,
+    component: requireAuth(PendingVideos),
   },
 ];
 

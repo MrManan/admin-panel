@@ -12335,11 +12335,11 @@ html body {
     width: 85px;
   }
 }
-@media (max-width: calc(768px - 1px)) {
+/* @media (max-width: calc(200px - 1px)) {
   .side-nav {
     display: none;
   }
-}
+} */
 .side-nav.side-nav--simple {
   width: 85px;
 }

@@ -3,9 +3,7 @@ import user from "@/assets/icons/user.svg";
 import contact from "@/assets/icons/contact.svg";
 import poll from "@/assets/icons/poll.svg";
 // import { getAllInstitution, getAllUsers } from "@/helper/backend_helper";
-import { CircularProgress } from '@mui/material';
-
-
+import { CircularProgress } from "@mui/material";
 
 interface data {
   users: number;
@@ -14,8 +12,12 @@ interface data {
   chats: number;
 }
 const Dashboard = (props: Props) => {
-
-  const [data, setData] = useState<data>({ users: 0, institutions: 0, jobs: 0, chats: 0 });
+  const [data, setData] = useState<data>({
+    users: 0,
+    institutions: 0,
+    jobs: 0,
+    chats: 0,
+  });
   const [loading, setLoading] = useState<boolean>(false);
 
   // useEffect(() => {
@@ -38,27 +40,21 @@ const Dashboard = (props: Props) => {
             Dashboard
           </a>
         </div>
-
-
-
-
       </div>
 
-
       <div className="col-span-12 xxl:col-span-9 grid grid-cols-12 gap-6">
-
         <div className="col-span-12 mt-8">
-
           <div className="grid grid-cols-12 gap-6 mt-5">
             <div className="col-span-12 sm:col-span-6 xl:col-span-4 intro-y m-3">
               <div className="report-box zoom-in">
                 <div className="box p-5">
                   <div className="flex">
-                    <i data-feather="shopping-cart" className="report-box__icon text-theme-10"></i>
+                    <i
+                      data-feather="shopping-cart"
+                      className="report-box__icon text-theme-10"
+                    ></i>
                     <div className="">
-                      <div className="text-base text-gray-600 mt-1">
-                        Users
-                      </div>
+                      <div className="text-base text-gray-600 mt-1">Users</div>
                       <div className="text-3xl font-bold leading-8">
                         <Count loading={loading} count={data.chats} />
                       </div>
@@ -76,7 +72,10 @@ const Dashboard = (props: Props) => {
               <div className="report-box zoom-in">
                 <div className="box p-5">
                   <div className="flex">
-                    <i data-feather="shopping-cart" className="report-box__icon text-theme-10"></i>
+                    <i
+                      data-feather="shopping-cart"
+                      className="report-box__icon text-theme-10"
+                    ></i>
                     <div className="">
                       <div className="text-base text-gray-600 mt-1">
                         Users Contact
@@ -98,11 +97,12 @@ const Dashboard = (props: Props) => {
               <div className="report-box zoom-in">
                 <div className="box p-5">
                   <div className="flex">
-                    <i data-feather="shopping-cart" className="report-box__icon text-theme-10"></i>
+                    <i
+                      data-feather="shopping-cart"
+                      className="report-box__icon text-theme-10"
+                    ></i>
                     <div className="">
-                      <div className="text-base text-gray-600 mt-1">
-                        Polls
-                      </div>
+                      <div className="text-base text-gray-600 mt-1">Polls</div>
                       <div className="text-3xl font-bold leading-8">
                         <Count loading={loading} count={data.chats} />
                       </div>
@@ -116,14 +116,8 @@ const Dashboard = (props: Props) => {
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
-
-
-
-
       </div>
     </div>
   );
@@ -136,10 +130,6 @@ type Props = {
   count: any;
 };
 
-
 const Count: React.FC<Props> = ({ loading, count }) => {
-  return (
-    loading ? <CircularProgress size="1em" color="warning" /> : count
-  )
-}
-
+  return loading ? <CircularProgress size="1em" color="warning" /> : count;
+};

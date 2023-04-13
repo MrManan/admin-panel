@@ -1,14 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 import noImage from "@/assets/images/no-image.png";
 // import { getAllUsers } from '@/helper/backend_helper';
-import { CircularProgress, TablePagination } from '@mui/material';
-import { config } from '@/components/config';
+import { CircularProgress, TablePagination } from "@mui/material";
+import { config } from "@/components/config";
 type Props = {};
 
 const User = (props: Props) => {
-
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [loading, setLoading] = useState(false);
@@ -25,17 +24,15 @@ const User = (props: Props) => {
 
   // }, []);
 
-
-
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number,
+    newPage: number
   ) => {
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -43,8 +40,14 @@ const User = (props: Props) => {
 
   return (
     <div className="content">
-      <h2 className="intro-y text-lg font-medium m-5">User List</h2>
-      <hr />
+      <div className="top-bar">
+        <div className="intro-x breadcrumb mr-auto hidden sm:flex">
+          <i data-feather="chevron-right" className="breadcrumb__icon"></i>
+          <a href="" className="breadcrumb--active">
+            User
+          </a>
+        </div>
+      </div>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="intro-y col-span-12 flex flex-wrap sm:flex-no-wrap items-center mt-2">
           <div className="hidden md:block mx-auto text-gray-600"></div>
@@ -77,51 +80,56 @@ const User = (props: Props) => {
               </tr>
             </thead>
             <tbody>
-              {
-                loading ? (
-                  <div className='flex justify-center'>
-                    <CircularProgress size="1.5rem" color='warning' />
-                  </div>
-                ) : (
-                  users
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map(
-                      (user: any, index) =>
-                        <tr className="intro-x">
-                          <td>
-                            <div className="text-xs whitespace-no-wrap font-bold">
-                              {index + 1}
-                            </div>
-                          </td>
-                          <td className="w-40">
-                            <div className="flex">
-                              <div className="w-10 h-10 image-fit zoom-in">
-                                <img
-                                  alt="Midone Tailwind HTML Admin Template"
-                                  className="tooltip rounded-full"
-                                  src={user.profileImage ? config.FILe_URL + user.profileImage : noImage}
-                                  title="Uploaded at 17 July 2021"
-                                />
-                              </div>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-gray-600 text-theme-7 ">
-                              {user.name}
-                            </div>
-                          </td>
-                          <td className="text-gray-600 text-theme-7 "> {user.email}</td>
-                          <td className="">
-                            <div className="flex items-center  text-theme-7">
-                              Okara, pakistan
-                            </div>
-                          </td>
-                          <td className="">
-                            <div className="flex items-center  text-theme-7">
-                              {user.phoneNumber}
-                            </div>
-                          </td>
-                          {/* <td className=" w-56">
+              {loading ? (
+                <div className="flex justify-center">
+                  <CircularProgress size="1.5rem" color="warning" />
+                </div>
+              ) : (
+                users
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((user: any, index) => (
+                    <tr className="intro-x">
+                      <td>
+                        <div className="text-xs whitespace-no-wrap font-bold">
+                          {index + 1}
+                        </div>
+                      </td>
+                      <td className="w-40">
+                        <div className="flex">
+                          <div className="w-10 h-10 image-fit zoom-in">
+                            <img
+                              alt="Midone Tailwind HTML Admin Template"
+                              className="tooltip rounded-full"
+                              src={
+                                user.profileImage
+                                  ? config.FILe_URL + user.profileImage
+                                  : noImage
+                              }
+                              title="Uploaded at 17 July 2021"
+                            />
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="text-gray-600 text-theme-7 ">
+                          {user.name}
+                        </div>
+                      </td>
+                      <td className="text-gray-600 text-theme-7 ">
+                        {" "}
+                        {user.email}
+                      </td>
+                      <td className="">
+                        <div className="flex items-center  text-theme-7">
+                          Okara, pakistan
+                        </div>
+                      </td>
+                      <td className="">
+                        <div className="flex items-center  text-theme-7">
+                          {user.phoneNumber}
+                        </div>
+                      </td>
+                      {/* <td className=" w-56">
                         <div className="flex justify-center items-center">
                           <a className="flex items-center mr-3" href="javascript:;">
                             <i
@@ -141,14 +149,13 @@ const User = (props: Props) => {
                           </a>
                         </div>
                       </td> */}
-                        </tr>
-                    ))
-              }
+                    </tr>
+                  ))
+              )}
             </tbody>
           </table>
         </div>
       </div>
-
 
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
@@ -159,7 +166,6 @@ const User = (props: Props) => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-
 
       <div className="modal" id="delete-confirmation-modal">
         <div className="modal__content">

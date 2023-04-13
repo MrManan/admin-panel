@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import menuItems from "./content";
 import logoutIcon from "@/assets/icons/logout.svg";
 import { AuthContext } from "@/contexts/AuthContext";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { confirmAlert } from "react-confirm-alert"; // Import
 
 const Sidebar = () => {
@@ -37,50 +37,52 @@ const Sidebar = () => {
   };
 
   return (
-    <nav className="side-nav">
-      <Link
-        to="/"
-        className="bg-white intro-x flex justify-center items-center p-3 rounded-lg"
-      >
-        <Logo />
-      </Link>
-      <div className="side-nav__devider my-6"></div>
-      <ul>
-        {menuItems.map((item) => (
+    <div>
+      <nav className="side-nav">
+        <Link
+          to="/"
+          className="bg-white intro-x flex justify-center items-center p-3 rounded-lg"
+        >
+          <Logo />
+        </Link>
+        <div className="side-nav__devider my-6"></div>
+        <ul>
+          {menuItems.map((item, index) => (
+            <li key={index}>
+              <Link
+                to={item.link}
+                className={
+                  item.link == pathname || item.children.includes(pathname)
+                    ? "side-menu--active side-menu text-black"
+                    : "side-menu text-black"
+                }
+              >
+                <div className="side-menu__icon">
+                  {item.link == pathname || item.children.includes(pathname) ? (
+                    <img src={item.activeIcon} />
+                  ) : (
+                    <img src={item.icon} />
+                  )}
+                </div>
+                <div className="side-menu__title">{item.label}</div>
+              </Link>
+            </li>
+          ))}
           <li>
-            <Link
-              to={item.link}
-              className={
-                item.link == pathname || item.children.includes(pathname)
-                  ? "side-menu--active side-menu text-black"
-                  : "side-menu text-black"
-              }
+            <a
+              className="side-menu text-white"
+              style={{ cursor: "pointer" }}
+              onClick={() => submit()}
             >
               <div className="side-menu__icon">
-                {item.link == pathname || item.children.includes(pathname) ? (
-                  <img src={item.activeIcon} />
-                ) : (
-                  <img src={item.icon} />
-                )}
+                <img src={logoutIcon} />
               </div>
-              <div className="side-menu__title">{item.label}</div>
-            </Link>
+              <div className="side-menu__title  text-white">Logout</div>
+            </a>
           </li>
-        ))}
-        <li>
-          <a
-            className="side-menu text-white"
-            style={{ cursor: "pointer" }}
-            onClick={() => submit()}
-          >
-            <div className="side-menu__icon">
-              <img src={logoutIcon} />
-            </div>
-            <div className="side-menu__title  text-white">Logout</div>
-          </a>
-        </li>
-      </ul>
-    </nav>
+        </ul>
+      </nav>
+    </div>
   );
 };
 

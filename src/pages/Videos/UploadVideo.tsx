@@ -1,115 +1,108 @@
 import React, { useState } from "react";
+import VideoPreviewModal from "./VideoPreviewModal";
 
-const UploadVideo = () => {
-  type Video = {
-    id: number;
-    title: string;
-    file: File;
-    url?: string;
-  };
+interface Video {
+  file: File | null;
+  url: string;
+  name: string;
+  description: string;
+}
 
+const UplaodVideo = () => {
   const [videos, setVideos] = useState<Video[]>([]);
+  const [previewVideoUrl, setPreviewVideoUrl] = useState("");
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
 
-  const handleVideoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    const videosArray: Video[] = [];
-    for (let i = 0; i < files.length && i < 10; i++) {
-      const file = files[i];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = (e) => {
-        videosArray.push({
-          id: i,
-          title: file.name,
-          file,
-          url: e.target.result as string,
-        });
-        if (videosArray.length === files.length || videosArray.length === 10) {
-          setVideos(videosArray);
-        }
-      };
+  const handleFileInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const files = event.target.files;
+    if (!files) {
+      return;
     }
+
+    const newVideos: Video[] = [];
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const url = URL.createObjectURL(file);
+      const name = file.name;
+      const description = ""; // Set a default description
+      newVideos.push({ file, url, name, description });
+    }
+    setVideos((prevVideos) => [...prevVideos, ...newVideos]);
   };
-  const handleVideoUpload = () => {
-    // call API to upload videos
-    // reset videos state
-    setVideos([]);
+
+  const handlePreviewClick = (videoUrl: string) => {
+    setPreviewVideoUrl(videoUrl);
+    setIsPreviewModalOpen(true);
   };
+
+  const handleCloseModal = () => {
+    setPreviewVideoUrl("");
+    setIsPreviewModalOpen(false);
+  };
+
   return (
-    <div className="content">
-      <h1 className="intro-y text-lg font-medium m-5">UploadVideo</h1>
-      <hr />
-      <div className="intro-y box p-5 mt-10">
-        <div className="border border-slate-200/60 dark:border-darkmode-400 rounded-md p-5">
-          <div className="font-medium text-base flex items-center border-b border-slate-200/60 dark:border-darkmode-400 pb-5">
-            {" "}
-            <i data-lucide="chevron-down" className="w-4 h-4 mr-2"></i> Upload
-            Video{" "}
-          </div>
-          <div className="mt-5">
-            <div className="flex items-center text-slate-500">
-              <span>
-                <i data-lucide="lightbulb" className="w-5 h-5 text-warning"></i>
-              </span>
-            </div>
-            <div className="form-inline items-start flex-col xl:flex-row mt-10">
-              <div className="form-label w-full xl:w-64 xl:!mr-10">
-                <div className="text-left">
-                  <div className="flex items-center">
-                    <div className="font-medium">Video Photos</div>
-                    <div className="ml-2 px-2 py-0.5 bg-slate-200 text-slate-600 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md">
-                      Required
-                    </div>
-                  </div>
-                  <div className="leading-relaxed text-slate-500 text-xs mt-3">
-                    <div className="mt-2">
-                      Select Video photos or drag and drop up to 10 videos at
-                      once here.
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className=" mx-auto sm:px-6 lg:px-8">
-                <div className="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                  <div className="p-6">
-                    <input
-                      type="file"
-                      multiple
-                      accept="video/*"
-                      onChange={handleVideoChange}
-                    />
-                    {videos.length > 0 && (
-                      <div className="mt-4">
-                        {videos.map((video) => (
-                          <div
-                            key={video.id}
-                            className="flex items-center justify-between"
-                          >
-                            <div>{video.title}</div>
-                            <video
-                              src={video.url}
-                              controls
-                              className="h-32 object-cover"
-                            />
-                          </div>
-                        ))}
-                        <button
-                          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md"
-                          onClick={handleVideoUpload}
-                        >
-                          Upload Videos
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className="p-4 space-y-4 content ">
+      <div className="top-bar">
+        <div className="intro-x breadcrumb mr-auto hidden sm:flex">
+          <i data-feather="chevron-right" className="breadcrumb__icon"></i>
+          <a href="" className="breadcrumb--active">
+            Upload Video
+          </a>
         </div>
       </div>
+      <input
+        type="file"
+        accept="video/*"
+        multiple
+        onChange={handleFileInputChange}
+        className="hidden"
+        id="video-file-input"
+      />
+      <label
+        htmlFor="video-file-input"
+        className="block py-2 px-4 bg-gray-200 rounded cursor-pointer"
+      >
+        Choose up to 10 videos to upload
+      </label>
+      <div className="btn btn-primary ms-auto float-right">Submit</div>
+      <div className="grid grid-cols-5 gap-4 break-all">
+        {videos.map((video, index) => (
+          <div
+            key={index}
+            onClick={() => handlePreviewClick(video.url)}
+            className="block max-w-[22rem]  rounded-lg bg-white shadow dark:bg-neutral-700 mt-10 ml-3"
+          >
+            <video src={video.url} className="w-full h-auto" />
+            <div className="p-6">
+              <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 break-alls">
+                {video.name}
+              </h5>
+            </div>
+          </div>
+        ))}
+      </div>
+      {/* <div className="grid grid-cols-5 gap-4">
+        {videos.map((video, index) => (
+          <div
+            key={index}
+            className="bg-gray-100 rounded cursor-pointer"
+            onClick={() => handlePreviewClick(video.url)}
+          >
+            <video src={video.url} className="w-full h-auto" />
+          </div>
+        ))}
+      </div> */}
+      {isPreviewModalOpen && (
+        <VideoPreviewModal
+          isOpen={isPreviewModalOpen}
+          onClose={handleCloseModal}
+          videoUrl={previewVideoUrl}
+        />
+      )}
     </div>
   );
 };
 
-export default UploadVideo;
+export default UplaodVideo;
