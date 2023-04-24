@@ -3,32 +3,30 @@ import { useContext } from "react";
 import Logo from "@/components/common/logo";
 import { useNavigate } from "react-router-dom";
 // import { postJwtLogin } from "@/helper/backend_helper";
-import { Formik, Form, Field } from 'formik';
-import { ToastContainer, toast } from 'react-toastify';
-import * as Yup from 'yup';
-import TextField from '@mui/material/TextField';
-
+import { Formik, Form, Field } from "formik";
+import { ToastContainer, toast } from "react-toastify";
+import * as Yup from "yup";
+import TextField from "@mui/material/TextField";
 
 interface ContactFormProps {
   onSubmit: (values: ContactFormValues) => void;
 }
-
 
 interface ContactFormValues {
   email: string;
   password: string;
 }
 
-
 const ContactFormSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email address').required('Email is required'),
-  password: Yup.string().required('Password is required').min(6),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  password: Yup.string().required("Password is required").min(6),
 });
 
 type Props = {};
 
 export const Login = (props: Props) => {
-
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -50,8 +48,8 @@ export const Login = (props: Props) => {
       // }
 
       // login(response.data.data);
-      login({ data: 'ok' });
-      navigate('/')
+      login({ data: "ok" });
+      navigate("/");
     } catch (error) {
       // if (error.response.status === 400) {
       //   toast.error(error.response.data.errors[0].detail, {
@@ -65,14 +63,10 @@ export const Login = (props: Props) => {
       //     theme: "light",
       //   });
     }
-
-  }
-
-
+  };
 
   return (
     <body className="login">
-
       <div className="container sm:px-10">
         <ToastContainer
           position="top-right"
@@ -89,7 +83,6 @@ export const Login = (props: Props) => {
         <div className="block xl:grid grid-cols-2 gap-4">
           <div className="hidden xl:flex flex-col min-h-screen">
             <div className="my-auto">
-
               <div className="-intro-x text-white font-medium text-4xl leading-tight mt-10">
                 A few more clicks to
                 <br />
@@ -108,7 +101,7 @@ export const Login = (props: Props) => {
               </h6>
 
               <Formik
-                initialValues={{ email: '', password: '' }}
+                initialValues={{ email: "", password: "" }}
                 validationSchema={ContactFormSchema}
                 onSubmit={(values, { setSubmitting }) => {
                   handleLogin(values);
@@ -119,7 +112,6 @@ export const Login = (props: Props) => {
                   <Form>
                     <div className="intro-x flex flex-col gap-10">
                       <div className="text-red-500">
-
                         <Field
                           fullWidth
                           name="email"
@@ -131,7 +123,6 @@ export const Login = (props: Props) => {
                           helperText={touched.email && errors.email}
                           className="login__input"
                         />
-
                       </div>
                       <div className="text-red-500">
                         <Field
@@ -145,13 +136,15 @@ export const Login = (props: Props) => {
                           helperText={touched.password && errors.password}
                           className="login__input  input--lg"
                         />
-
                       </div>
                     </div>
 
                     <div className="intro-x mt-5 xl:mt-8 text-center xl:text-left">
-
-                      <button className="button button--lg w-full xl:w-100 bg-black text-white xl:mr-3 rounded-lg" type="submit" disabled={isSubmitting}>
+                      <button
+                        className="button button--lg w-full xl:w-100 h-full xl:h-100 bg-black text-white xl:mr-3 rounded-lg"
+                        type="submit"
+                        disabled={isSubmitting}
+                      >
                         Sign In
                       </button>
                     </div>

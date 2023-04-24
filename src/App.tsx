@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import adminRoutes from "@/Routes";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <Routes>
@@ -18,4 +18,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

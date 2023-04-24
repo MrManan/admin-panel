@@ -1,28 +1,50 @@
 import { useEffect, useState } from "react";
-
+import axios, { AxiosResponse } from "axios";
 import noImage from "@/assets/images/no-image.png";
-// import { getAllUsers } from '@/helper/backend_helper';
 import { CircularProgress, TablePagination } from "@mui/material";
 import { config } from "@/components/config";
 type Props = {};
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  accessToken: string;
+}
 
-const User = (props: Props) => {
-  const [users, setUsers] = useState([]);
+const Users = (props: Props) => {
+  const [listUsers, setListUsers] = useState<User[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  // useEffect(() => {
+  useEffect(() => {
+    const getUsers = async () => {
+      const base_url = "http://13.53.138.241/api/v1";
+      const endpoint = "/user/fetch";
+      const url = base_url + endpoint;
 
-  //   const getUsers = async () => {
-  //     setLoading(true);
-  //     const response = await getAllUsers();
-  //     setUsers(response.data.data)
-  //     setLoading(false);
-  //   }
-  //   getUsers();
+      setLoading(true);
+      try {
+        const response: AxiosResponse<User[]> = await axios.get(url);
+        const token = response.data; // assuming the token is returned in the response data
 
-  // }, []);
+        localStorage.setItem(
+          "login",
+          JSON.stringify({
+            login: true,
+            token: token,
+          })
+        );
+
+        setListUsers(response.data); // assuming the user data is returned in the response data as an array of users
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getUsers();
+  }, []);
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -85,7 +107,7 @@ const User = (props: Props) => {
                   <CircularProgress size="1.5rem" color="warning" />
                 </div>
               ) : (
-                users
+                listUsers
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((user: any, index) => (
                     <tr className="intro-x">
@@ -125,9 +147,7 @@ const User = (props: Props) => {
                         </div>
                       </td>
                       <td className="">
-                        <div className="flex items-center  text-theme-7">
-                          {user.phoneNumber}
-                        </div>
+                        <div className="flex items-center  text-theme-7"></div>
                       </td>
                       {/* <td className=" w-56">
                         <div className="flex justify-center items-center">
@@ -160,7 +180,7 @@ const User = (props: Props) => {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={users.length}
+        count={listUsers.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
@@ -198,4 +218,4 @@ const User = (props: Props) => {
   );
 };
 
-export default User;
+export default Users;

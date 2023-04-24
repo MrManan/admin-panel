@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import user from "@/assets/icons/user.svg";
-import contact from "@/assets/icons/contact.svg";
-import poll from "@/assets/icons/poll.svg";
+import video from "@/assets/icons/video.svg";
+import category from "@/assets/icons/category.svg";
 // import { getAllInstitution, getAllUsers } from "@/helper/backend_helper";
 import { CircularProgress } from "@mui/material";
 
@@ -78,7 +78,7 @@ const Dashboard = (props: Props) => {
                     ></i>
                     <div className="">
                       <div className="text-base text-gray-600 mt-1">
-                        Users Contact
+                        Pending Videos
                       </div>
                       <div className="text-3xl font-bold leading-8">
                         <Count loading={loading} count={data.chats} />
@@ -87,7 +87,7 @@ const Dashboard = (props: Props) => {
                   </div>
                   <div className="flex justify-end ">
                     <div className="bg-red-100 p-10 rounded-lg">
-                      <img src={contact} width={50} />
+                      <img src={video} width={50} />
                     </div>
                   </div>
                 </div>
@@ -102,7 +102,9 @@ const Dashboard = (props: Props) => {
                       className="report-box__icon text-theme-10"
                     ></i>
                     <div className="">
-                      <div className="text-base text-gray-600 mt-1">Polls</div>
+                      <div className="text-base text-gray-600 mt-1">
+                        Categories
+                      </div>
                       <div className="text-3xl font-bold leading-8">
                         <Count loading={loading} count={data.chats} />
                       </div>
@@ -110,7 +112,7 @@ const Dashboard = (props: Props) => {
                   </div>
                   <div className="flex justify-end ">
                     <div className="bg-green-200 p-10 rounded-lg">
-                      <img src={poll} width={50} />
+                      <img src={category} width={50} />
                     </div>
                   </div>
                 </div>

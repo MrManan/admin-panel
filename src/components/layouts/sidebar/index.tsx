@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import menuItems from "./content";
 import logoutIcon from "@/assets/icons/logout.svg";
 import { AuthContext } from "@/contexts/AuthContext";
-import { useContext, useState, useEffect } from "react";
-import { confirmAlert } from "react-confirm-alert"; // Import
+import { useContext } from "react";
+import { confirmAlert } from "react-confirm-alert";
 
 const Sidebar = () => {
   const pathname: string = window.location.pathname || "";
